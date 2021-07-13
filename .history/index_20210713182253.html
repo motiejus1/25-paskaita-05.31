@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25 paskaita</title>
+</head>
+<body>
+    <script>
+    "use strict";
+
+    //Skaiciuotuvas, kuris gali atimti, sudeti, sudauginti, padalinti, istraukti sakni
+    // Jis turi atminti
+
+    //Susikurti objekta
+
+    var skaiciuotuvas = {
+        a: 0, //paimti is input
+        b: 0, //paimti is input
+        rezultatas: 0,
+        sudetis: function(sk, sk1) {
+            this.rezultatas = sk + sk1;
+            return this.rezultatas;
+        },
+        atimtis: function() {
+
+        },
+        sandauga: function() {
+
+        },
+        dalyba: function() {
+
+        },
+        saknis: function() {
+
+        }
+    };
+    
+    console.log(skaiciuotuvas.rezultatas);
+    console.log(skaiciuotuvas.sudetis(10, 15));
+    console.log(skaiciuotuvas.rezultatas);
+
+    
+    </script>
+</body>
+</html>

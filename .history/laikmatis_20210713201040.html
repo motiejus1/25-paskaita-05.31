@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laikmatis</title>
+</head>
+<body>
+    
+    <div id="valanda"></div>
+    <div id="minute"></div>
+    <div id="sekunde"></div>
+    <div id="milisekunde"></div>
+
+    <script>
+        "use strict";
+        
+        //Chronometra
+        //Is kompiuterio
+        //00:00:00 0000 Start Stop
+
+        var laikmatis = {
+            valanda: 0,
+            minute: 0,
+            sekunde: 58,
+            milisekunde: 0,
+            paleistas: false,
+
+            tiksek: function() {
+                this.milisekunde++;
+                document.querySelector("#milisekunde").innerHTML = this.milisekunde;
+
+                if(this.milisekunde == 1000) {
+                    this.milisekunde = 0;
+                    this.sekunde++;
+                    document.querySelector("#sekunde").innerHTML = this.sekunde;
+                    
+                    this.minute =
+
+                    // if(this.sekunde == 59) {
+                    //     this.sekunde = 0;
+                    //     this.minute++;
+                    // }
+
+                }
+            }
+        }
+
+        setInterval(function() {
+            laikmatis.tiksek();
+        }, 0.5); //veiksmas kartojamas kas 1 miliskende
+
+    </script>
+
+
+</body>
+</html>

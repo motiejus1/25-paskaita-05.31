@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25 paskaita</title>
+</head>
+<body>
+
+    <input type="text" id="sk" name="sk" value="10">
+    <input type="text" id="sk1" name="sk1" value="25">
+
+    <button id="sudetis">Sudetis</button>
+    <button id="atimtis">Atimtis</button>
+    <button id="daugyba">Daugyba</button>
+    <button id="dalyba">Dalyba</button>
+    <button id="saknis">Saknis</button>
+    <button id="issaugok">Issaugoti reiksmes</button>
+    <button id="atmintis">Atminties rezimas</button>
+
+    <div id="rezultatas">
+
+    </div>
+
+    <div id="skaiciai-atmintyje">
+        
+    </div>
+
+    <script>
+    "use strict";
+
+    //Skaiciuotuvas, kuris gali atimti, sudeti, sudauginti, padalinti, istraukti sakni
+    // Jis turi atminti
+    //Ka daryti norint atlikti veiksma ne su ivestais skaiciais, o esanciais atmintyje?    
+    
+    //Susikurti naujus metodus: sudetis -> sudetisAtmintis
+    
+    // rezimas.
+    // rezimas reiksmes gali buti tiesa arba melas
+    // jeigu tiesa - skaiciuotuvas veikia iprastai
+    // jeigu melas - skaiciuotuvas ima reiksmes is atminties
+
+    //Susikurti objekta
+
+    var skaiciuotuvas = {
+        a: 0, //paimti is input
+        b: 0, //paimti is input
+        rezultatas: 0,
+        rezimas: true,
+
+        sudetis: function(sk, sk1) {
+            if(this.rezimas == true) {
+                this.rezultatas = sk + sk1; 
+            } else {
+                this.rezultatas = this.a + this.b; 
+            }
+            return this.rezultatas;
+        },
+
+        sudetisAtmintis: function() {
+            this.rezultatas = this.a + this.b;
+            return this.rezultatas;
+        },
+
+        atimtis: function(sk, sk1) {
+            if(this.rezimas == true) {
+                this.rezultatas = sk - sk1;
+            } else {
+                this.rezultatas = this.a - this.b; 
+            }
+            return this.rezultatas;
+        },
+        sandauga: function(sk, sk1) {
+            if(this.rezimas == true) {
+                this.rezultatas = sk * sk1;
+            } else {
+                this.rezultatas = this.a * this.b; 
+            }
+            return this.rezultatas;
+        },
+        dalyba: function(sk, sk1) {
+            if(this.rezimas == true) {
+                this.rezultatas = sk / sk1;
+            } else {
+                this.rezultatas = this.a / this.b; 
+            }
+            return this.rezultatas;
+        },
+        saknis: function(sk, sk1) {
+            if(this.rezimas == true) {
+                this.rezultatas = Math.sqrt(sk);
+            } else {
+                this.rezultatas = Math.sqrt(this.a);
+            }
+            return this.rezultatas;
+        },
+        issaugok: function(sk, sk1) {
+            this.a = sk;
+            this.b = sk1;
+        },
+        atmintis: function() {
+            this.rezimas = !this.rezimas;
+
+            // tiesa -> false
+            //false -> tiesa
+        }
+    };
+
+    document.querySelector("#sudetis").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.sudetis(sk, sk1);
+    });
+
+    document.querySelector("#atimtis").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.atimtis(sk, sk1);
+    });
+
+    document.querySelector("#daugyba").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.sandauga(sk, sk1);
+    });
+
+    document.querySelector("#dalyba").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.dalyba(sk, sk1);
+    });
+
+    document.querySelector("#saknis").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.saknis(sk, sk1);
+    });
+
+    document.querySelector("#issaugok").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        skaiciuotuvas.issaugok(sk, sk1);
+    });
+
+
+
+
+
+
+
+    // console.log(skaiciuotuvas.sudetis(10, 15));
+    // console.log(skaiciuotuvas.atimtis(10, 15));
+    // console.log(skaiciuotuvas.sandauga(10, 15));
+    // console.log(skaiciuotuvas.dalyba(10, 15));
+    // console.log(skaiciuotuvas.saknis(10, 15));
+
+    // console.log(skaiciuotuvas.sudetisAtmintis());// ? 0
+    // skaiciuotuvas.issaugok(10, 15);
+    // console.log(skaiciuotuvas.sudetisAtmintis()); // ? 25
+
+
+    // console.log(skaiciuotuvas.a);
+    // console.log(skaiciuotuvas.b);
+
+    // console.log(skaiciuotuvas.sudetis(10, 15));// ? 25
+    // skaiciuotuvas.issaugok(100, 200);
+    // skaiciuotuvas.atmintis();
+    // console.log(skaiciuotuvas.sudetis(10, 15));// ? 300 ?
+    // skaiciuotuvas.atmintis();
+    // console.log(skaiciuotuvas.sudetis(10, 15)); // 25
+
+    </script>
+</body>
+</html>

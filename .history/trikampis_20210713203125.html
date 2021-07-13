@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25 paskaita</title>
+</head>
+<body>
+
+
+    <script>
+        "use strict";
+        // Trikampio atpazinimas
+        // Reikia nustatyti ar trikampi galima sudaryti
+        // Jei galima sudaryti, nustatyti ar trikampis statusis, smailusis ar bukasis
+        // Jei galima sudaryti, nustatyti ar trikampis lygiasionis, lygiakrastis, ar ivariakrastis
+
+        var trikampis = {
+            a: 3,
+            b: 4,
+            c: 5,
+            arTrikampis: false,
+
+            tikrinimas: function() {
+                if(this.a + this.b > this.c && this.b + this.c > this.a && this.a + this.c > this.b ) {
+                    this.arTrikampis = true;
+                }
+            },
+
+            tikrinimasPagalKampa: function() {
+
+            },
+
+            tikrinimasPagalKrastines: function() {
+                var trikampioMasyvas = [this.a, this.b, this.c];
+                // [3 4 5] [4 3 5] [5 4 3] -> 
+                // Isrikiuoja didejimo tvarka
+
+
+
+            }
+        };
+
+        trikampis.tikrinimas();
+        console.log(trikampis.arTrikampis);
+
+    </script>
+</body>
+</html>
