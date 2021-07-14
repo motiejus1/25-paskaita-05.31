@@ -8,9 +8,17 @@
 </head>
 <body>
     
-    <span id="atvaizdavimas"></span>
+    <div id="atvaizdavimas"></div>
+
+    <button id="pridetvalanda">+1h</button>
+    <button id="pridetminute">+1min</button>
+    <button id="pridetsekunde">+1sec</button>
+
     <button id="pradeti">Pradeti</button>
     <button id="nusinulink">Nusinulink</button>
+    <button id="stop">Stop</button>
+
+    <!-- input -->
 
     <script>
         "use strict";
@@ -24,10 +32,15 @@
             atvaizdavimas: null,
             mygtukasNusinulink: null,
             mygtukasPradeti: null,
+            mygtukasStop: null,
+            mygtukasPridetvalanda: null,
+            mygtukasPridetminute: null,
+            mygtukasPridetsekunde: null,
+
             valanda: 0,
             minute: 0,
             sekunde: 0,
-            milisekunde: 0,
+            milisekunde: -1,
             paleistas: false,
 
             paleidimas() {
@@ -35,23 +48,64 @@
                 laikmatis.atvaizdavimas = document.querySelector("#atvaizdavimas"); //objektas
                 laikmatis.mygtukasPradeti = document.querySelector("#pradeti");
                 laikmatis.mygtukasNusinulink = document.querySelector("#nusinulink");
+                laikmatis.mygtukasStop = document.querySelector("#stop");
+
+                laikmatis.mygtukasPridetvalanda = document.querySelector("#pridetvalanda");
+                laikmatis.mygtukasPridetminute = document.querySelector("#pridetminute");
+                laikmatis.mygtukasPridetsekunde = document.querySelector("#pridetsekunde");
+
+
+                laikmatis.mygtukasNusinulink.disabled = true;
+                laikmatis.mygtukasStop.disabled = true;
 
                 laikmatis.mygtukasNusinulink.addEventListener("click", laikmatis.nusinulink);
                 laikmatis.mygtukasPradeti.addEventListener("click", laikmatis.pradeti);
+                laikmatis.mygtukasStop.addEventListener("click", laikmatis.stop);
+                laikmatis.mygtukasPridetvalanda.addEventListener("click", laikmatis.pridetivalanda);
+                laikmatis.mygtukasPridetminute.addEventListener("click", laikmatis.pridetiminute);
+                laikmatis.mygtukasPridetsekunde.addEventListener("click", laikmatis.pridetisekunde);
                 //paleidimo metu tiksek();
                 //  setInterval(laikmatis.tiksek, 100); //kuri paleidzia funkcija tam tikru laiko intervalu
 
             },
 
+            pridetisekunde: function() {
+                laikmatis.milisekunde = laikmatis.milisekunde + 9;
+                laikmatis.tiksek();// +1 
+            },
+
+            pridetiminute: function() {
+                laikmatis.milisekunde = laikmatis.milisekunde + 599;
+                laikmatis.tiksek(); 
+            },
+
+            pridetivalanda: function() {
+                //Kiek turim milisekundziu? 1h - 36000
+                laikmatis.milisekunde = laikmatis.milisekunde + 35999;
+                laikmatis.tiksek();
+            },
+
             pradeti: function() {
-                setInterval(laikmatis.tiksek, 100);
+                laikmatis.paleistas = setInterval(laikmatis.tiksek, 100);
+                laikmatis.mygtukasPradeti.disabled=true;
+                laikmatis.mygtukasNusinulink.disabled = false;
+                laikmatis.mygtukasStop.disabled = false;
+                // true reiksme
             },
 
             nusinulink: function() {
-                // padaryti 0 kazkokia reiksme ???
-                // 
+                
+                laikmatis.stop();
+                laikmatis.milisekunde = -1;
+                laikmatis.tiksek();
+                laikmatis.mygtukasPradeti.disabled=false;
+                
+            },
 
-                laikmatis.milisekunde = 0;
+            stop: function() {
+                clearInterval(laikmatis.paleistas);
+                laikmatis.paleistas = false;
+                laikmatis.mygtukasPradeti.disabled=false;
             },
 
             tiksek: function() {
@@ -97,7 +151,7 @@
         }
 
         laikmatis.paleidimas();
-        // laikmatis.tiksek();
+        laikmatis.tiksek();
 
 
 
