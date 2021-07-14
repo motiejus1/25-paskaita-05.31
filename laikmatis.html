@@ -18,6 +18,8 @@
     <button id="nusinulink">Nusinulink</button>
     <button id="stop">Stop</button>
 
+    <button id="rezimas">Laikmatis - taimeris</button>
+
     <!-- input -->
 
     <script>
@@ -36,12 +38,14 @@
             mygtukasPridetvalanda: null,
             mygtukasPridetminute: null,
             mygtukasPridetsekunde: null,
+            mygtukasRezimas: null,
 
             valanda: 0,
             minute: 0,
             sekunde: 0,
             milisekunde: -1,
             paleistas: false,
+            rezimas: true,
 
             paleidimas() {
                 //this - kintamasis, objektas
@@ -54,6 +58,8 @@
                 laikmatis.mygtukasPridetminute = document.querySelector("#pridetminute");
                 laikmatis.mygtukasPridetsekunde = document.querySelector("#pridetsekunde");
 
+                laikmatis.mygtukasRezimas = document.querySelector("#rezimas");
+
 
                 laikmatis.mygtukasNusinulink.disabled = true;
                 laikmatis.mygtukasStop.disabled = true;
@@ -64,9 +70,26 @@
                 laikmatis.mygtukasPridetvalanda.addEventListener("click", laikmatis.pridetivalanda);
                 laikmatis.mygtukasPridetminute.addEventListener("click", laikmatis.pridetiminute);
                 laikmatis.mygtukasPridetsekunde.addEventListener("click", laikmatis.pridetisekunde);
+                laikmatis.mygtukasRezimas.addEventListener("click", laikmatis.keiskrezima);
+
+                if(laikmatis.rezimas == true) {
+                    laikmatis.mygtukasRezimas.innerHTML = "Laikmatis tiksi i prieki";
+                } else {
+                    laikmatis.mygtukasRezimas.innerHTML = "Laikmatis tiksi atgal";
+                }
                 //paleidimo metu tiksek();
                 //  setInterval(laikmatis.tiksek, 100); //kuri paleidzia funkcija tam tikru laiko intervalu
 
+            },
+
+            keiskrezima: function() {
+                laikmatis.rezimas = !laikmatis.rezimas;
+                laikmatis.stop();
+                if(laikmatis.rezimas == true) {
+                    laikmatis.mygtukasRezimas.innerHTML = "Laikmatis tiksi i prieki";
+                } else {
+                    laikmatis.mygtukasRezimas.innerHTML = "Laikmatis tiksi atgal";
+                }
             },
 
             pridetisekunde: function() {
@@ -86,7 +109,14 @@
             },
 
             pradeti: function() {
-                laikmatis.paleistas = setInterval(laikmatis.tiksek, 100);
+                //Rezimo mygtuko, kuris veikia arba kaip laikrodis arba kaip laikas einantis atgal
+                //mums reikia kad sustotu kai yra 0
+                if (laikmatis.rezimas == true) {
+                    laikmatis.paleistas = setInterval(laikmatis.tiksek, 100);
+                } else {    
+                    laikmatis.paleistas = setInterval(laikmatis.tiksekAtgal, 100);
+                }
+
                 laikmatis.mygtukasPradeti.disabled=true;
                 laikmatis.mygtukasNusinulink.disabled = false;
                 laikmatis.mygtukasStop.disabled = false;
@@ -146,6 +176,51 @@
 
                 laikmatis.atvaizdavimas.innerHTML = laikmatis.valanda + ":" + laikmatis.minute + ":" + laikmatis.sekunde + "." + laikinojiMilisekunde;
 
+            },
+
+            tiksekAtgal: function() {
+                // 1000 milisekundziu * 3600 = 3600000
+                // 120s -> 120s/3600s = 12/360h
+                if(laikmatis.milisekunde > 0) {
+
+                    laikmatis.milisekunde--;
+
+                    var laikinojiMilisekunde = laikmatis.milisekunde;
+                    // 1/10 sekundes
+                    //1h - 3600s
+                    // 1h - 36000 
+                    laikmatis.valanda = Math.floor(laikmatis.milisekunde / 36000); //valanda
+                    laikmatis.minute = Math.floor(laikmatis.milisekunde / 600); // minute
+                    laikmatis.sekunde = Math.floor(laikmatis.milisekunde / 10); // sekunde
+
+                    laikmatis.valanda = laikmatis.valanda % 24;
+
+                    if(laikmatis.valanda < 10) {
+                        laikmatis.valanda = "0" + laikmatis.valanda;
+                    }
+
+                    laikmatis.minute = laikmatis.minute % 60;
+
+                    if(laikmatis.minute < 10) {
+                        laikmatis.minute = "0" + laikmatis.minute;
+                    }
+
+                    laikmatis.sekunde = laikmatis.sekunde % 60;
+                    if(laikmatis.sekunde < 10) {
+                        laikmatis.sekunde = "0" + laikmatis.sekunde;
+                    }
+
+                    laikinojiMilisekunde = laikinojiMilisekunde % 10;
+
+                    // if(laikmatis.milisekunde < 10) {
+                    //     laikmatis.milisekunde = "0" + laikmatis.milisekunde;
+                    // }
+
+                    laikmatis.atvaizdavimas.innerHTML = laikmatis.valanda + ":" + laikmatis.minute + ":" + laikmatis.sekunde + "." + laikinojiMilisekunde;
+                } else {
+                    alert("Laikas baiges");
+                    laikmatis.stop();
+                }
             }
             
         }
