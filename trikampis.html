@@ -17,9 +17,9 @@
         // Jei galima sudaryti, nustatyti ar trikampis lygiasionis, lygiakrastis, ar ivariakrastis
 
         var trikampis = {
-            a: 2,
-            b: 100,
-            c: 2,
+            a: 6, //36
+            b: 8, //64
+            c: 10, //100
             arTrikampis: false,
 
             tikrinimas: function() {
@@ -32,7 +32,7 @@
 
             tikrinimasPagalKampa: function() {
                 var trikampioMasyvas = [this.a, this.b, this.c];
-                trikampioMasyvas = trikampioMasyvas.sort();
+                // trikampioMasyvas = trikampioMasyvas.sort();
 
                 if (trikampioMasyvas[2] * trikampioMasyvas[2] == trikampioMasyvas[0] * trikampioMasyvas[0] + trikampioMasyvas[1] * trikampioMasyvas[1]) {
                     console.log("Statusis");
@@ -46,7 +46,7 @@
 
             tikrinimasPagalKrastines: function() {
                 var trikampioMasyvas = [this.a, this.b, this.c];
-                trikampioMasyvas = trikampioMasyvas.sort();
+                // trikampioMasyvas = trikampioMasyvas.sort();
 
                 if (trikampioMasyvas[0] == trikampioMasyvas[1] && trikampioMasyvas[1] == trikampioMasyvas[2] && trikampioMasyvas[0] == trikampioMasyvas[2]) {
                     console.log("Lygiakrastis");

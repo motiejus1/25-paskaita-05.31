@@ -8,10 +8,9 @@
 </head>
 <body>
     
-    <div id="valanda"></div>
-    <div id="minute"></div>
-    <div id="sekunde"></div>
-    <div id="milisekunde"></div>
+    <span id="atvaizdavimas"></span>
+    <button id="pradeti">Pradeti</button>
+    <button id="nusinulink">Nusinulink</button>
 
     <script>
         "use strict";
@@ -21,49 +20,86 @@
         //00:00:00 0000 Start Stop
 
         var laikmatis = {
+
+            atvaizdavimas: null,
+            mygtukasNusinulink: null,
+            mygtukasPradeti: null,
             valanda: 0,
             minute: 0,
-            sekunde: 58,
+            sekunde: 0,
             milisekunde: 0,
             paleistas: false,
 
+            paleidimas() {
+                //this - kintamasis, objektas
+                laikmatis.atvaizdavimas = document.querySelector("#atvaizdavimas"); //objektas
+                laikmatis.mygtukasPradeti = document.querySelector("#pradeti");
+                laikmatis.mygtukasNusinulink = document.querySelector("#nusinulink");
+
+                laikmatis.mygtukasNusinulink.addEventListener("click", laikmatis.nusinulink);
+                laikmatis.mygtukasPradeti.addEventListener("click", laikmatis.pradeti);
+                //paleidimo metu tiksek();
+                //  setInterval(laikmatis.tiksek, 100); //kuri paleidzia funkcija tam tikru laiko intervalu
+
+            },
+
+            pradeti: function() {
+                setInterval(laikmatis.tiksek, 100);
+            },
+
+            nusinulink: function() {
+                // padaryti 0 kazkokia reiksme ???
+                // 
+
+                laikmatis.milisekunde = 0;
+            },
+
             tiksek: function() {
-                this.milisekunde++;
-                document.querySelector("#milisekunde").innerHTML = this.milisekunde;
+                // 1000 milisekundziu * 3600 = 3600000
+                // 120s -> 120s/3600s = 12/360h
+                laikmatis.milisekunde++;
 
-                if(this.milisekunde == 1000) {
-                    this.milisekunde = 0;
-                    document.querySelector("#sekunde").innerHTML = this.sekunde;
-                    
-                    if(this.sekunde == 60) {
-                        this.sekunde = 0;
-                        this.minute++;
-                    }  
+                var laikinojiMilisekunde = laikmatis.milisekunde;
+                // 1/10 sekundes
+                //1h - 3600s
+                // 1h - 36000 
+                laikmatis.valanda = Math.floor(laikmatis.milisekunde / 36000); //valanda
+                laikmatis.minute = Math.floor(laikmatis.milisekunde / 600); // minute
+                laikmatis.sekunde = Math.floor(laikmatis.milisekunde / 10); // sekunde
 
-                    // this.minute = parseInt(this.sekunde / 60);
-                    // this.sekunde = this.sekunde % 60;
+                laikmatis.valanda = laikmatis.valanda % 24;
 
-                    document.querySelector("#minute").innerHTML = this.minute;
-
-                    // if(this.sekunde == 59) {
-                    //     this.sekunde = 0;
-                    //     this.minute++;
-                    // }
-
-                    this.sekunde++;
-
+                if(laikmatis.valanda < 10) {
+                    laikmatis.valanda = "0" + laikmatis.valanda;
                 }
+
+                laikmatis.minute = laikmatis.minute % 60;
+
+                if(laikmatis.minute < 10) {
+                    laikmatis.minute = "0" + laikmatis.minute;
+                }
+
+                laikmatis.sekunde = laikmatis.sekunde % 60;
+                if(laikmatis.sekunde < 10) {
+                    laikmatis.sekunde = "0" + laikmatis.sekunde;
+                }
+
+                 laikinojiMilisekunde = laikinojiMilisekunde % 10;
+
+                // if(laikmatis.milisekunde < 10) {
+                //     laikmatis.milisekunde = "0" + laikmatis.milisekunde;
+                // }
+
+                laikmatis.atvaizdavimas.innerHTML = laikmatis.valanda + ":" + laikmatis.minute + ":" + laikmatis.sekunde + "." + laikinojiMilisekunde;
+
             }
+            
         }
 
-        document.querySelector("#milisekunde").innerHTML = laikmatis.milisekunde;
-        document.querySelector("#sekunde").innerHTML = laikmatis.sekunde;
-        document.querySelector("#minute").innerHTML = laikmatis.minute;
-        document.querySelector("#valanda").innerHTML = laikmatis.valanda;
+        laikmatis.paleidimas();
+        // laikmatis.tiksek();
 
-        setInterval(function() {
-            laikmatis.tiksek();
-        }, 0.5); //veiksmas kartojamas kas 1 miliskende
+
 
     </script>
 
